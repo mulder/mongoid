@@ -5,8 +5,6 @@ module Mongoid # :nodoc:
       module NestedAttributes #:nodoc:
         class One < NestedBuilder
 
-          attr_accessor :destroy
-
           # Builds the relation depending on the attributes and the options
           # passed to the macro.
           #
@@ -53,7 +51,6 @@ module Mongoid # :nodoc:
             @attributes = attributes.with_indifferent_access
             @metadata = metadata
             @options = options
-            @destroy = @attributes.delete(:_destroy)
           end
 
           private
@@ -100,6 +97,7 @@ module Mongoid # :nodoc:
           #
           # True if the relation can potentially be deleted.
           def destroyable?
+            destroy = attributes.delete(:_destroy)
             [ 1, "1", true, "true" ].include?(destroy) && allow_destroy?
           end
 
